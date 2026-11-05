@@ -225,8 +225,10 @@
     var meta = document.getElementById("topic-meta");
     var article = document.querySelector("article.topic");
     if (meta && article) {
+      // 只計算正文；參考資料與相關主題不列入閱讀時間（與 check.mjs 的正文字數定義一致）
       var length = 0;
-      article.querySelectorAll("section[id] p, section[id] li, section[id] td").forEach(function (n) {
+      var BODY = "section[id]:not(#references):not(#related) ";
+      article.querySelectorAll(BODY + "p, " + BODY + "li, " + BODY + "td").forEach(function (n) {
         length += n.textContent.replace(/\s+/g, "").length;
       });
       var minutes = Math.max(1, Math.round(length / CHARS_PER_MINUTE));
