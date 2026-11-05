@@ -139,6 +139,16 @@ glossary.forEach((g, i) => {
   }
 });
 
+// README 的「目前內容」表格須列出所有主題（GitHub 專案首頁會顯示此表）
+const readme = existsSync(join(ROOT, "README.md")) ? readFileSync(join(ROOT, "README.md"), "utf8") : "";
+const readmeTable = (readme.split(/^## 目前內容\s*$/m)[1] || "").split(/^## /m)[0];
+if (!readmeTable) error("README.md", "找不到「## 目前內容」一節");
+for (const t of topics) {
+  if (readmeTable && !readmeTable.includes(t.title)) {
+    error("README.md", `「目前內容」表格缺少主題「${t.title}」`);
+  }
+}
+
 // ---------- 2. 主題頁 ----------
 const topicDir = join(ROOT, "topics");
 const topicFiles = existsSync(topicDir) ? readdirSync(topicDir).filter((f) => f.endsWith(".html")) : [];

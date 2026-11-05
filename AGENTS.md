@@ -199,7 +199,9 @@ diabetic retinopathy in retinal fundus photographs. <cite>JAMA</cite>. 2016;316(
 6. **處理名詞**：
    - 文中的核心名詞若已在名詞表，加上 `a.term` 連結。
    - 若尚未收錄，依第 7.3 節新增，並把本主題加入名詞的 `topics`。
-7. **更新相關主題**：檢查其他主題的 `related`，必要時加入新主題。
+7. **更新相關主題與 README**：
+   - 檢查其他主題的 `related`，必要時加入新主題。
+   - 在 `README.md` 的「目前內容」表格中，把新主題加到所屬分類那一列（`check.mjs` 會檢查）。
 8. **執行檢查**：執行 `node scripts/check.mjs`，必須是 0 個錯誤；警告也應修正。
 9. **檢查版面**：在瀏覽器開啟頁面，確認桌面與手機寬度（約 375px）皆正常顯示。
 10. **提交**：commit 訊息格式為 `content: 新增主題「<中文標題>」`。
@@ -246,6 +248,7 @@ diabetic retinopathy in retinal fundus photographs. <cite>JAMA</cite>. 2016;316(
 
 - **提交前必須執行** `node scripts/check.mjs`，錯誤數必須為 0。檢查項目包括：
   - 登錄表欄位與字數
+  - `README.md` 的「目前內容」表格列出所有主題
   - 主題頁的必備區塊、順序與數量
   - 標題與摘要的一致性
   - 內部連結與名詞連結
