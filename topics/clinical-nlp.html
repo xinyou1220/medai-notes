@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>臨床自然語言處理｜醫療人工智慧概念講義</title>
+  <meta name="description" content="以電腦分析病歷與檢查報告等臨床文字，擷取診斷、用藥與症狀等結構化資訊，支援病歷檢索、研究收案與臨床決策。">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../data/site.js" defer></script>
+  <script src="../data/topics.js" defer></script>
+  <script src="../data/glossary.js" defer></script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body data-page="topic" data-root=".." data-slug="clinical-nlp">
+  <header id="site-header"></header>
+
+  <main class="container article-layout">
+    <article class="topic">
+      <nav class="breadcrumb" id="breadcrumb" aria-label="導覽路徑"></nav>
+      <h1>臨床自然語言處理</h1>
+      <p class="title-en">Clinical Natural Language Processing</p>
+      <div class="topic-meta" id="topic-meta"></div>
+
+      <section id="summary" class="summary">
+        <h2>摘要</h2>
+        <p>臨床自然語言處理是指以電腦分析病程紀錄、出院摘要、影像報告與病理報告等臨床文字，從中擷取診斷、用藥、症狀與檢查結果等結構化資訊的技術，可用於病歷檢索、臨床研究收案、品質指標統計與臨床決策支援。</p>
+      </section>
+
+      <section id="background">
+        <h2>背景與動機</h2>
+        <p><a class="term" href="../glossary.html#ehr">電子病歷</a>（Electronic Health Record, EHR）中有許多欄位已結構化，例如診斷代碼、檢驗數值與醫囑；但症狀描述、病情變化、醫師的臨床推理與影像判讀結果，多半仍以自由文字記載。這些文字包含結構化欄位無法呈現的細節，例如症狀的嚴重程度、排除的診斷與家族病史。</p>
+        <p>若要從大量病歷中找出符合研究條件的病人，或統計某種併發症的發生率，傳統做法是由研究人員逐份閱讀病歷，耗時且難以擴大規模。臨床自然語言處理的目標，是讓電腦自動完成這類閱讀與整理工作，將自由文字轉換為可統計、可查詢的資料。</p>
+      </section>
+
+      <section id="principle">
+        <h2>核心原理</h2>
+        <p>臨床文本處理通常先進行前處理，包括斷句、斷詞、縮寫展開與去識別化，再依需求執行下列任務：</p>
+        <div class="table-wrap">
+          <table>
+            <caption>臨床自然語言處理的常見任務</caption>
+            <thead>
+              <tr><th>任務</th><th>說明</th><th>例子</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>命名實體辨識</td><td>找出文字中的疾病、藥物、劑量、檢查等實體</td><td>從「metformin 500 mg bid」辨識藥名、劑量與頻次</td></tr>
+              <tr><td>否定偵測</td><td>判斷實體是被確認存在，還是被否定</td><td>「no chest pain」表示沒有胸痛</td></tr>
+              <tr><td>概念正規化</td><td>把不同寫法對應到標準詞彙</td><td>將「MI」與「heart attack」對應到同一個心肌梗塞概念</td></tr>
+              <tr><td>文件分類與摘要</td><td>判斷整份文件的類別，或產生重點摘要</td><td>判斷影像報告是否提及需追蹤的結節</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><a class="term" href="../glossary.html#ner">命名實體辨識</a>（Named Entity Recognition, NER）是多數應用的基礎。然而，病歷中有大量「否認」「未見」「排除」等描述，若只辨識出實體而不判斷語境，會把「無發燒」誤記為「發燒」。因此<a class="term" href="../glossary.html#negation-detection">否定偵測</a>（Negation Detection）十分重要。Chapman 等人（2001）提出的 NegEx 演算法以「no」「denies」「without」等觸發詞搭配規則，判斷其後的疾病或症狀是否被否定，方法簡單且至今仍被廣泛使用。</p>
+        <p>概念正規化則把辨識出的詞彙對應到一體化醫學語言系統（Unified Medical Language System, UMLS）、SNOMED CT 或 ICD 等標準詞彙，使不同醫師、不同醫院的寫法可以合併統計。</p>
+        <p>方法上，早期系統多以規則與詞典為主，其後發展出統計機器學習方法。近年則以採用 <a class="term" href="../glossary.html#transformer">Transformer 架構</a>的預訓練語言模型為主流：先以大量文字預訓練，再以少量標註資料微調，在多數臨床文本任務上優於傳統方法。</p>
+      </section>
+
+      <section id="applications">
+        <h2>臨床應用案例</h2>
+        <h3>cTAKES 開源臨床文本分析系統</h3>
+        <p>Savova 等人（2010）發表由 Mayo Clinic 開發的 cTAKES（clinical Text Analysis and Knowledge Extraction System）。該系統以開源方式釋出，整合斷句、詞性標註、命名實體辨識與否定偵測等模組，並將辨識結果對應到 UMLS 概念。許多研究以 cTAKES 作為從病歷中擷取資訊的基礎工具。</p>
+        <h3>MIMIC-III 公開重症資料庫</h3>
+        <p>Johnson 等人（2016）發表 MIMIC-III 資料庫，收錄美國 Beth Israel Deaconess Medical Center 加護病房超過 4 萬名病人的去識別化資料，其中包含護理紀錄、出院摘要與影像報告等臨床文字。研究人員完成訓練課程並簽署資料使用協議後即可申請使用，使臨床文本研究得以在相同資料上比較不同方法。</p>
+        <h3>生物醫學與臨床預訓練語言模型</h3>
+        <p>Lee 等人（2020）提出的 BioBERT 以 PubMed 摘要與 PMC 全文文章進一步預訓練 BERT 模型，在生物醫學命名實體辨識、關係擷取與問答任務上優於原始 BERT。Alsentzer 等人（2019）則以 MIMIC-III 的臨床紀錄訓練 Clinical BERT 並公開釋出，顯示以臨床文字預訓練的模型，在多項臨床文本任務上表現優於只以一般文字或生物醫學文獻訓練的模型。</p>
+      </section>
+
+      <section id="limitations">
+        <h2>限制與風險</h2>
+        <ul>
+          <li><strong>縮寫與多義詞</strong>：病歷大量使用縮寫，且同一縮寫可能有不同意義，例如「PE」可指肺栓塞（pulmonary embolism）或理學檢查（physical examination），需要依上下文判斷。</li>
+          <li><strong>語言與書寫習慣</strong>：臺灣的病歷常以英文書寫並夾雜中文與縮寫，各醫院、各科別的書寫習慣也不同；以英文公開資料訓練的模型，不一定能直接套用。</li>
+          <li><strong>隱私與去識別化</strong>：病歷含有姓名、病歷號碼、日期與地址等個人資料，用於研究前必須去識別化；自動去識別化工具仍可能遺漏，需搭配人工抽查與資料使用管理。</li>
+          <li><strong>標註資料稀少</strong>：臨床文本的標註需要醫學背景，且因隱私限制難以跨機構分享，導致可用於訓練與評估的資料有限。</li>
+        </ul>
+      </section>
+
+      <section id="key-points">
+        <h2>重點整理</h2>
+        <ul>
+          <li>臨床自然語言處理把病歷中的自由文字轉換為可統計、可查詢的結構化資訊。</li>
+          <li>命名實體辨識、否定偵測與概念正規化是最基本的三項任務。</li>
+          <li>以臨床文字預訓練的語言模型，通常比只以一般文字訓練的模型更適合臨床任務。</li>
+          <li>縮寫、多語夾雜與隱私限制，是臨床文本處理在實務上的主要困難。</li>
+        </ul>
+      </section>
+
+      <section id="references">
+        <h2>參考資料</h2>
+        <ol>
+          <li>Chapman WW, et al. A simple algorithm for identifying negated findings and diseases in discharge summaries. <cite>Journal of Biomedical Informatics</cite>. 2001;34(5):301-310. <a href="https://doi.org/10.1006/jbin.2001.1029">doi:10.1006/jbin.2001.1029</a></li>
+          <li>Savova GK, et al. Mayo clinical Text Analysis and Knowledge Extraction System (cTAKES): architecture, component evaluation and applications. <cite>Journal of the American Medical Informatics Association</cite>. 2010;17(5):507-513. <a href="https://doi.org/10.1136/jamia.2009.001560">doi:10.1136/jamia.2009.001560</a></li>
+          <li>Johnson AEW, et al. MIMIC-III, a freely accessible critical care database. <cite>Scientific Data</cite>. 2016;3:160035. <a href="https://doi.org/10.1038/sdata.2016.35">doi:10.1038/sdata.2016.35</a></li>
+          <li>Lee J, et al. BioBERT: a pre-trained biomedical language representation model for biomedical text mining. <cite>Bioinformatics</cite>. 2020;36(4):1234-1240. <a href="https://doi.org/10.1093/bioinformatics/btz682">doi:10.1093/bioinformatics/btz682</a></li>
+          <li>Alsentzer E, et al. Publicly available clinical BERT embeddings. <cite>Proceedings of the 2nd Clinical Natural Language Processing Workshop</cite>. 2019. <a href="https://arxiv.org/abs/1904.03323">arXiv:1904.03323</a></li>
+        </ol>
+      </section>
+
+      <section class="related" id="related" aria-label="相關主題"></section>
+      <nav class="pager" id="pager" aria-label="上一篇與下一篇"></nav>
+    </article>
+
+    <aside class="toc" id="toc" aria-label="本頁目次"></aside>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

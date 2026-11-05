@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>大型語言模型於醫療｜醫療人工智慧概念講義</title>
+  <meta name="description" content="以大量文字預訓練、能理解與生成自然語言的模型，可用於病歷摘要、文件草擬與衛教問答，但輸出可能有誤，須經專業人員審核。">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../data/site.js" defer></script>
+  <script src="../data/topics.js" defer></script>
+  <script src="../data/glossary.js" defer></script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body data-page="topic" data-root=".." data-slug="medical-llm">
+  <header id="site-header"></header>
+
+  <main class="container article-layout">
+    <article class="topic">
+      <nav class="breadcrumb" id="breadcrumb" aria-label="導覽路徑"></nav>
+      <h1>大型語言模型於醫療</h1>
+      <p class="title-en">Large Language Models in Medicine</p>
+      <div class="topic-meta" id="topic-meta"></div>
+
+      <section id="summary" class="summary">
+        <h2>摘要</h2>
+        <p>大型語言模型是以大量文字預訓練、能理解與生成自然語言的模型。在醫療領域可用於病歷摘要、文件草擬、衛教問答與文獻整理等任務，但其輸出可能出現看似合理卻錯誤的內容，仍須由專業人員審核後才能使用。</p>
+      </section>
+
+      <section id="background">
+        <h2>背景與動機</h2>
+        <p>臨床人員每天需要花費大量時間撰寫與閱讀文件，包括病程紀錄、出院摘要、轉診信與保險文件；病人與家屬也常需要以淺白語言理解病情與治療選項。這些工作都以自然語言為核心，但傳統的自然語言處理模型通常只能處理單一任務，每項任務都需要另外收集資料並訓練模型。</p>
+        <p><a class="term" href="../glossary.html#llm">大型語言模型</a>（Large Language Model, LLM）只需以文字說明任務，即可執行摘要、改寫、翻譯與問答等多種工作，因此被視為可能減輕臨床文書負擔與改善醫病溝通的工具，也引發對正確性與安全性的廣泛討論。</p>
+      </section>
+
+      <section id="principle">
+        <h2>核心原理</h2>
+        <p>目前的大型語言模型多以 Vaswani 等人（2017）提出的 <a class="term" href="../glossary.html#transformer">Transformer 架構</a>為基礎。此架構以自注意力機制計算句子中各個詞元之間的關聯，能有效處理長篇文字，並適合以大量運算資源平行訓練。</p>
+        <p>模型的建立通常分為三個階段：首先以大量文字進行預訓練，學習根據前文預測下一個詞元；接著以人工撰寫的指令與回答進行指令微調，使模型能依照要求回應；最後以人類對回答的偏好評分進一步調整，使回答更符合使用者期待。經過這些步驟後，模型雖然能產生流暢的文字，但並不保證內容正確。</p>
+        <p>為了提高回答的可靠性，醫療應用常採用<a class="term" href="../glossary.html#rag">檢索增強生成</a>（Retrieval-Augmented Generation, RAG）。Lewis 等人（2020）提出的這類方法，會先從指定的資料來源中檢索相關段落，再要求模型根據檢索結果作答。在醫療情境中，資料來源可以是臨床指引、藥品仿單或院內規範，使回答有明確依據並可附上出處。</p>
+        <div class="table-wrap">
+          <table>
+            <caption>將大型語言模型用於醫療任務的常見方式</caption>
+            <thead>
+              <tr><th>方式</th><th>作法</th><th>適用情境</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>提示設計</td><td>以文字說明任務、格式與限制，不改變模型參數</td><td>快速試行摘要、改寫等任務</td></tr>
+              <tr><td>微調</td><td>以醫療領域資料進一步訓練模型</td><td>需要特定書寫格式或專業用語的任務</td></tr>
+              <tr><td>檢索增強生成</td><td>先檢索可信資料，再根據檢索結果作答</td><td>需要最新資訊或明確出處的問答</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="applications">
+        <h2>臨床應用案例</h2>
+        <h3>醫學知識問答：Med-PaLM</h3>
+        <p>Singhal 等人（2023）整合多個醫學問答資料集建立評測基準 MultiMedQA。其中，Flan-PaLM 在美國醫師執照考試形式的 MedQA 題目上正確率達 67.6%，比先前最佳結果高出 17 個百分點以上。然而，在開放式回答的人工評估中仍發現明顯缺陷；研究團隊再以指令提示微調得到 Med-PaLM，其回答品質雖有改善，但整體仍不如臨床醫師。</p>
+        <h3>回覆病人提問</h3>
+        <p>Ayers 等人（2023）從公開社群論壇選取 195 則病人提問，比較醫師與 ChatGPT 的回覆。由醫療專業人員組成的評估者在 78.6% 的評估中偏好聊天機器人的回覆，且其回覆在品質與同理心的評分上都較高。此研究並非在臨床環境中進行，作者也指出這類工具較適合用於協助醫師草擬回覆，而非直接回覆病人。</p>
+        <h3>臨床文件與醫學教育</h3>
+        <p>Thirunavukarasu 等人（2023）的回顧文章整理大型語言模型在臨床文件草擬、醫學教育與研究上的潛在用途，並指出多數應用仍處於初步評估階段，正式導入臨床前需要更嚴謹的研究，以確認其正確性、安全性與實際效益。</p>
+        <div class="warning"><p><span class="label">注意</span>大型語言模型的回答可能看似專業卻包含錯誤，不得直接作為診斷、用藥或治療的依據；任何醫療用途都應由合格的醫療專業人員審核與負責。</p></div>
+      </section>
+
+      <section id="limitations">
+        <h2>限制與風險</h2>
+        <ul>
+          <li><strong>幻覺</strong>：<a class="term" href="../glossary.html#hallucination">幻覺</a>（Hallucination）是指模型產生看似合理但與事實不符的內容，例如不存在的研究、錯誤的劑量或虛構的引用；由於語氣與正確內容一樣肯定，讀者難以單從文字判斷。</li>
+          <li><strong>知識時效</strong>：模型的知識停留在訓練資料的截止時間，可能不包含最新的臨床指引或藥品安全資訊。</li>
+          <li><strong>偏誤</strong>：訓練資料中的刻板印象與族群差異，可能使模型對不同族群的病人提供品質不一致的回答。</li>
+          <li><strong>隱私與資料安全</strong>：將病人資料輸入外部服務可能違反個人資料保護規範，醫療機構須評估資料傳輸、儲存與使用方式。</li>
+          <li><strong>評估方式有限</strong>：在選擇題考試中取得高分，不代表在真實臨床情境中能安全、有效地協助照護，仍需前瞻性研究驗證。</li>
+        </ul>
+      </section>
+
+      <section id="key-points">
+        <h2>重點整理</h2>
+        <ul>
+          <li>大型語言模型以 Transformer 架構為基礎，經預訓練與指令微調後能執行多種語言任務。</li>
+          <li>檢索增強生成讓模型根據可信資料作答，是降低錯誤並提供出處的常見作法。</li>
+          <li>醫學考試成績與回覆品質研究顯示其潛力，但多數證據並非來自真實臨床環境。</li>
+          <li>幻覺、知識時效與隱私問題，使大型語言模型的輸出必須經專業人員審核。</li>
+        </ul>
+      </section>
+
+      <section id="references">
+        <h2>參考資料</h2>
+        <ol>
+          <li>Vaswani A, et al. Attention is all you need. <cite>Advances in Neural Information Processing Systems</cite>. 2017. <a href="https://arxiv.org/abs/1706.03762">arXiv:1706.03762</a></li>
+          <li>Lewis P, et al. Retrieval-augmented generation for knowledge-intensive NLP tasks. <cite>Advances in Neural Information Processing Systems</cite>. 2020. <a href="https://arxiv.org/abs/2005.11401">arXiv:2005.11401</a></li>
+          <li>Singhal K, et al. Large language models encode clinical knowledge. <cite>Nature</cite>. 2023;620(7972):172-180. <a href="https://doi.org/10.1038/s41586-023-06291-2">doi:10.1038/s41586-023-06291-2</a></li>
+          <li>Ayers JW, et al. Comparing physician and artificial intelligence chatbot responses to patient questions posted to a public social media forum. <cite>JAMA Internal Medicine</cite>. 2023;183(6):589-596. <a href="https://doi.org/10.1001/jamainternmed.2023.1838">doi:10.1001/jamainternmed.2023.1838</a></li>
+          <li>Thirunavukarasu AJ, et al. Large language models in medicine. <cite>Nature Medicine</cite>. 2023;29(8):1930-1940. <a href="https://doi.org/10.1038/s41591-023-02448-8">doi:10.1038/s41591-023-02448-8</a></li>
+        </ol>
+      </section>
+
+      <section class="related" id="related" aria-label="相關主題"></section>
+      <nav class="pager" id="pager" aria-label="上一篇與下一篇"></nav>
+    </article>
+
+    <aside class="toc" id="toc" aria-label="本頁目次"></aside>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

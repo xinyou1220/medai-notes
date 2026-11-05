@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>醫療 AI 的法規與臨床驗證｜醫療人工智慧概念講義</title>
+  <meta name="description" content="說明醫療 AI 作為醫療器材軟體的上市審查架構，以及從內部驗證、外部驗證到前瞻性研究與上市後監測的臨床證據層級。">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../data/site.js" defer></script>
+  <script src="../data/topics.js" defer></script>
+  <script src="../data/glossary.js" defer></script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body data-page="topic" data-root=".." data-slug="regulation-and-validation">
+  <header id="site-header"></header>
+
+  <main class="container article-layout">
+    <article class="topic">
+      <nav class="breadcrumb" id="breadcrumb" aria-label="導覽路徑"></nav>
+      <h1>醫療 AI 的法規與臨床驗證</h1>
+      <p class="title-en">Regulation and Clinical Validation of Medical AI</p>
+      <div class="topic-meta" id="topic-meta"></div>
+
+      <section id="summary" class="summary">
+        <h2>摘要</h2>
+        <p>用於診斷或治療決策的醫療 AI 通常屬於醫療器材，上市前須經主管機關審查；開發者也必須以內部驗證、<a class="term" href="../glossary.html#external-validation">外部驗證</a>（External Validation）、前瞻性研究與上市後監測等層層證據，確認其在真實臨床環境中的安全性與有效性。</p>
+      </section>
+
+      <section id="background">
+        <h2>背景與動機</h2>
+        <p>醫療 AI 的錯誤可能直接影響病人的診斷與治療，因此多數國家將具醫療用途的軟體納入醫療器材管理。國際醫療器材法規管理論壇（International Medical Device Regulators Forum, IMDRF）將不屬於醫療器材硬體、但本身具有醫療用途的軟體定義為<a class="term" href="../glossary.html#samd">醫療器材軟體</a>（Software as a Medical Device, SaMD），許多醫療 AI 產品即屬於此類。</p>
+        <p>與傳統醫療器材相比，AI 模型的效能高度依賴訓練資料。模型在開發機構表現良好，換到其他醫院、其他設備或其他時期後，可能因<a class="term" href="../glossary.html#dataset-shift">資料集偏移</a>（Dataset Shift）而明顯下降。此外，模型可能需要以新資料持續更新，這也使「上市前審查一次即可」的傳統管理方式面臨挑戰。</p>
+      </section>
+
+      <section id="principle">
+        <h2>核心原理</h2>
+        <p>主要的管理架構如下。美國食品藥物管理局（FDA）依風險高低，以 510(k)、De Novo 或上市前核准（Premarket Approval, PMA）等途徑審查醫療器材。2021 年，FDA 與加拿大衛生部、英國藥品及保健產品管理局共同發布「良好機器學習實務」（Good Machine Learning Practice, GMLP）的 10 項指導原則，涵蓋資料代表性、訓練與測試資料獨立、上市後監測等面向。針對需要持續更新的模型，FDA 於 2024 年發布預定變更控制計畫（Predetermined Change Control Plan, PCCP）的最終指引，允許廠商在上市申請時事先說明未來的修改範圍與驗證方式。</p>
+        <p>歐盟於 2024 年通過《人工智慧法》（Regulation (EU) 2024/1689），作為醫療器材或其安全元件、且須經第三方符合性評鑑的 AI 系統屬於高風險類別，須符合風險管理、資料治理、技術文件、透明度與人為監督等要求。我國則依自 2021 年起施行的《醫療器材管理法》管理醫療器材，具醫療用途的 AI 軟體同樣須依風險等級辦理查驗登記。</p>
+        <div class="note"><p><span class="label">補充</span>法規與指引會隨時間修訂。本頁內容依截至 2026 年 11 月可查得的官方文件整理，實際適用要求應以各國主管機關的最新公告為準。</p></div>
+        <p>法規審查之外，評估醫療 AI 的臨床證據可分為以下層級，層級越後面，越接近真實臨床效益：</p>
+        <div class="table-wrap">
+          <table>
+            <caption>醫療 AI 的臨床證據層級</caption>
+            <thead>
+              <tr><th>層級</th><th>作法</th><th>可回答的問題</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>內部驗證</td><td>以開發資料切分出的測試集評估</td><td>模型在相同來源資料上的表現</td></tr>
+              <tr><td>外部驗證</td><td>以其他機構或其他時期的資料評估</td><td>能否推廣到不同機構與族群</td></tr>
+              <tr><td>前瞻性研究</td><td>在實際臨床流程中依序收案評估</td><td>在真實使用情境下的表現</td></tr>
+              <tr><td>隨機對照試驗</td><td>比較使用與不使用 AI 的病人結果</td><td>是否改善病人結局或照護流程</td></tr>
+              <tr><td>上市後監測</td><td>導入後持續追蹤效能與不良事件</td><td>效能是否隨時間或環境改變而下降</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>研究報告也應完整揭露資料來源、模型開發與驗證方式。Collins 等人（2024）發表的 TRIPOD+AI 聲明，即針對使用迴歸或機器學習方法的臨床預測模型，提供研究報告應包含的項目清單。</p>
+      </section>
+
+      <section id="applications">
+        <h2>臨床應用案例</h2>
+        <h3>廣泛使用的敗血症預測模型</h3>
+        <p>Wong 等人（2021）在美國密西根大學醫療體系，以約 2.8 萬名住院病人的資料外部驗證一套已在多家醫院使用的商用敗血症預測模型。結果顯示該模型的 <a class="term" href="../glossary.html#auc">ROC 曲線下面積</a>（Area Under the ROC Curve, AUC）僅 0.63，低於開發者公布的數值，且未能辨識 67% 的敗血症病人。此案例顯示，即使是已廣泛導入的模型，也需要在各機構進行獨立的外部驗證。</p>
+        <h3>以醫療費用作為健康需求的代理指標</h3>
+        <p>Obermeyer 等人（2019）分析美國一套用於篩選需加強照護病人的商用演算法，發現該演算法以醫療費用作為健康需求的代理指標。由於黑人病人在相同病情下的醫療支出通常較低，在相同風險分數下，黑人病人實際上病情較重。研究估計，若修正此偏誤，獲得額外照護資源的病人中，黑人病人的比例將從 17.7% 提高到 46.5%。</p>
+        <h3>自主式 AI 的前瞻性樞紐試驗</h3>
+        <p>糖尿病視網膜病變篩檢系統 IDx-DR 在美國基層醫療院所進行前瞻性樞紐試驗，以預先設定的<a class="term" href="../glossary.html#sensitivity-specificity">敏感度與特異度</a>（Sensitivity and Specificity）目標作為主要評估指標，結果敏感度為 87.2%、特異度為 90.7%（Abràmoff 等人，2018）。該系統於 2018 年經 FDA 以 De Novo 途徑核准上市，是以前瞻性證據支持 AI 醫療器材上市的代表案例。</p>
+      </section>
+
+      <section id="limitations">
+        <h2>限制與風險</h2>
+        <ul>
+          <li><strong>持續學習的管理</strong>：模型更新後的效能可能改變，如何在允許改善的同時確保安全，仍是各國法規持續調整的議題。</li>
+          <li><strong>上市後效能下降</strong>：病人族群、檢查設備與臨床流程改變時，模型效能可能逐漸下降，需要建立持續監測與回報機制。</li>
+          <li><strong>前瞻性證據不足</strong>：多數醫療 AI 研究仍為回顧性設計，能證明改善病人結局的隨機對照試驗相對稀少。</li>
+          <li><strong>透明度有限</strong>：商用模型的訓練資料與演算法常未公開，使用機構難以事先評估其適用性與潛在偏誤。</li>
+          <li><strong>各國規範不一</strong>：不同國家的分類標準與審查要求不同，產品跨國上市時需分別準備證據與文件；法規內容也會隨時間更新，引用時須注意版本與日期。</li>
+        </ul>
+      </section>
+
+      <section id="key-points">
+        <h2>重點整理</h2>
+        <ul>
+          <li>具醫療用途的 AI 軟體通常屬於醫療器材軟體，上市前須依風險等級接受主管機關審查。</li>
+          <li>FDA 的良好機器學習實務與預定變更控制計畫，是管理 AI 醫療器材開發與更新的重要依據。</li>
+          <li>內部驗證的結果不足以支持臨床導入，外部驗證、前瞻性研究與上市後監測同樣重要。</li>
+          <li>商用模型也可能在外部驗證中表現不佳或帶有偏誤，各機構導入前應獨立評估。</li>
+        </ul>
+      </section>
+
+      <section id="references">
+        <h2>參考資料</h2>
+        <ol>
+          <li>International Medical Device Regulators Forum. Software as a Medical Device (SaMD): Key definitions. IMDRF/SaMD WG/N10FINAL:2013. 2013. <a href="https://www.imdrf.org/documents/software-medical-device-samd-key-definitions">IMDRF 官方網頁</a></li>
+          <li>U.S. Food and Drug Administration, Health Canada, Medicines and Healthcare products Regulatory Agency. Good machine learning practice for medical device development: Guiding principles. 2021. <a href="https://www.fda.gov/medical-devices/artificial-intelligence-enabled-medical-devices/good-machine-learning-practice-medical-device-development-guiding-principles">FDA 官方網頁</a></li>
+          <li>U.S. Food and Drug Administration. Marketing submission recommendations for a predetermined change control plan for artificial intelligence-enabled device software functions: Guidance for industry and Food and Drug Administration staff. 2024. <a href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/marketing-submission-recommendations-predetermined-change-control-plan-artificial-intelligence">FDA 官方網頁</a></li>
+          <li>European Parliament and Council of the European Union. Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence (Artificial Intelligence Act). <cite>Official Journal of the European Union</cite>. 2024. <a href="https://eur-lex.europa.eu/eli/reg/2024/1689/oj">EUR-Lex 官方網頁</a></li>
+          <li>Abràmoff MD, et al. Pivotal trial of an autonomous AI-based diagnostic system for detection of diabetic retinopathy in primary care offices. <cite>npj Digital Medicine</cite>. 2018;1:39. <a href="https://doi.org/10.1038/s41746-018-0040-6">doi:10.1038/s41746-018-0040-6</a></li>
+          <li>Wong A, et al. External validation of a widely implemented proprietary sepsis prediction model in hospitalized patients. <cite>JAMA Internal Medicine</cite>. 2021;181(8):1065-1070. <a href="https://doi.org/10.1001/jamainternmed.2021.2626">doi:10.1001/jamainternmed.2021.2626</a></li>
+          <li>Obermeyer Z, et al. Dissecting racial bias in an algorithm used to manage the health of populations. <cite>Science</cite>. 2019;366(6464):447-453. <a href="https://doi.org/10.1126/science.aax2342">doi:10.1126/science.aax2342</a></li>
+          <li>Collins GS, et al. TRIPOD+AI statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods. <cite>BMJ</cite>. 2024;385:e078378. <a href="https://doi.org/10.1136/bmj-2023-078378">doi:10.1136/bmj-2023-078378</a></li>
+        </ol>
+      </section>
+
+      <section class="related" id="related" aria-label="相關主題"></section>
+      <nav class="pager" id="pager" aria-label="上一篇與下一篇"></nav>
+    </article>
+
+    <aside class="toc" id="toc" aria-label="本頁目次"></aside>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

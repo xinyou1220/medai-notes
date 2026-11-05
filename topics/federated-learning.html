@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>聯邦學習｜醫療人工智慧概念講義</title>
+  <meta name="description" content="讓多家醫院在病人資料不離開各自機構的前提下共同訓練模型，只交換模型更新量，以兼顧隱私保護與資料規模。">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../data/site.js" defer></script>
+  <script src="../data/topics.js" defer></script>
+  <script src="../data/glossary.js" defer></script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body data-page="topic" data-root=".." data-slug="federated-learning">
+  <header id="site-header"></header>
+
+  <main class="container article-layout">
+    <article class="topic">
+      <nav class="breadcrumb" id="breadcrumb" aria-label="導覽路徑"></nav>
+      <h1>聯邦學習</h1>
+      <p class="title-en">Federated Learning</p>
+      <div class="topic-meta" id="topic-meta"></div>
+
+      <section id="summary" class="summary">
+        <h2>摘要</h2>
+        <p>聯邦學習是一種分散式機器學習方法，讓多家醫院在病人資料不離開各自機構的前提下共同訓練模型，各機構只交換模型參數或更新量，以兼顧資料隱私與模型所需的資料規模及多樣性。</p>
+      </section>
+
+      <section id="background">
+        <h2>背景與動機</h2>
+        <p>醫療 AI 模型需要大量且多樣的資料，才能在不同醫院、不同族群與不同設備上維持穩定表現。單一醫院的資料量有限，病人組成也可能偏向特定族群；但若要把多家醫院的影像或<a class="term" href="../glossary.html#ehr">電子病歷</a>（Electronic Health Record, EHR）集中到同一台伺服器，必須面對美國 HIPAA、歐盟一般資料保護規則（General Data Protection Regulation, GDPR）與我國《個人資料保護法》等規範，以及各機構對資料外流的疑慮。</p>
+        <p>Rieke 等人（2020）指出，聯邦學習提供了另一種合作模式：資料留在原機構，移動的是模型。這使原本因法規或行政程序而難以共享資料的機構，仍有機會共同開發模型。</p>
+      </section>
+
+      <section id="principle">
+        <h2>核心原理</h2>
+        <p>最常見的作法是 McMahan 等人（2017）提出的<a class="term" href="../glossary.html#fedavg">聯邦平均演算法</a>（Federated Averaging, FedAvg），其訓練流程如下：</p>
+        <div class="table-wrap">
+          <table>
+            <caption>聯邦平均演算法的一輪訓練流程</caption>
+            <thead>
+              <tr><th>步驟</th><th>執行者</th><th>內容</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>中央伺服器</td><td>將目前的全域模型傳送給各參與醫院</td></tr>
+              <tr><td>2</td><td>各醫院</td><td>以院內資料在本地訓練數個回合</td></tr>
+              <tr><td>3</td><td>各醫院</td><td>只上傳更新後的模型參數，不上傳原始資料</td></tr>
+              <tr><td>4</td><td>中央伺服器</td><td>依各院資料量加權平均，得到新的全域模型</td></tr>
+              <tr><td>5</td><td>全體</td><td>重複上述步驟，直到模型表現穩定</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>各醫院的病人族群、影像設備與標註習慣不同，使各院資料屬於<a class="term" href="../glossary.html#non-iid">非獨立同分布資料</a>（Non-IID Data）。這會使各院的模型更新方向不一致，降低全域模型的收斂速度與表現，是醫療聯邦學習的主要技術挑戰。</p>
+        <p>需要注意的是，只交換模型參數並不等於完全沒有隱私風險。Zhu 等人（2019）的研究顯示，在特定條件下可以從共享的梯度重建出訓練資料。因此，實務上常搭配安全聚合，使伺服器只能看到加總後的結果；或採用<a class="term" href="../glossary.html#differential-privacy">差分隱私</a>（Differential Privacy），在更新量中加入經過設計的雜訊，以降低個別病人資料被推論的可能。</p>
+      </section>
+
+      <section id="applications">
+        <h2>臨床應用案例</h2>
+        <h3>腦腫瘤影像分割</h3>
+        <p>Sheller 等人（2020）以腦部磁振造影的腫瘤<a class="term" href="../glossary.html#segmentation">影像分割</a>（Image Segmentation）為任務，比較 10 家機構以聯邦學習與集中資料訓練的結果。聯邦學習模型的表現達到集中資料訓練模型的約 99%。研究也指出，透過多機構合作取得更多資料所帶來的效益，大於合作訓練方式本身造成的誤差。</p>
+        <h3>COVID-19 病人氧氣需求預測</h3>
+        <p>Dayan 等人（2021）與全球 20 家機構合作，以胸部 X 光、生命徵象與檢驗數值訓練 EXAM 模型，預測有症狀的 COVID-19 病人在 24 小時與 72 小時後的氧氣治療需求。與各機構只用自家資料訓練的模型相比，聯邦學習模型的平均 AUC 提升 16%，泛化能力平均提升 38%。此研究顯示，聯邦學習可在疫情期間讓多國機構快速合作，而不需要跨國傳輸病人資料。</p>
+      </section>
+
+      <section id="limitations">
+        <h2>限制與風險</h2>
+        <ul>
+          <li><strong>資料異質性</strong>：各院資料分布差異大時，全域模型可能在部分醫院表現不佳，需要額外的演算法或在地微調。</li>
+          <li><strong>隱私並非絕對</strong>：模型更新量仍可能洩漏資訊，必須搭配安全聚合或差分隱私等保護機制，而這些機制可能降低模型表現。</li>
+          <li><strong>資料品質難以檢查</strong>：中央端無法直接檢視各院資料，若某家醫院的標註標準不同或資料有誤，較難及早發現。</li>
+          <li><strong>工程與治理成本</strong>：各院需要具備運算設備與維運人力，並事先約定資料格式、參與規則與成果歸屬，行政協調成本不低。</li>
+        </ul>
+      </section>
+
+      <section id="key-points">
+        <h2>重點整理</h2>
+        <ul>
+          <li>聯邦學習讓資料留在原機構，只交換模型參數，以支援跨院合作。</li>
+          <li>聯邦平均演算法以各院資料量加權平均模型參數，是最常見的訓練方式。</li>
+          <li>各院資料的異質性是主要技術挑戰，可能影響模型的收斂與表現。</li>
+          <li>交換模型參數仍有隱私風險，需要搭配安全聚合或差分隱私等機制。</li>
+        </ul>
+      </section>
+
+      <section id="references">
+        <h2>參考資料</h2>
+        <ol>
+          <li>McMahan HB, et al. Communication-efficient learning of deep networks from decentralized data. <cite>Proceedings of the 20th International Conference on Artificial Intelligence and Statistics (AISTATS)</cite>. 2017. <a href="https://arxiv.org/abs/1602.05629">arXiv:1602.05629</a></li>
+          <li>Rieke N, et al. The future of digital health with federated learning. <cite>npj Digital Medicine</cite>. 2020;3:119. <a href="https://doi.org/10.1038/s41746-020-00323-1">doi:10.1038/s41746-020-00323-1</a></li>
+          <li>Sheller MJ, et al. Federated learning in medicine: facilitating multi-institutional collaborations without sharing patient data. <cite>Scientific Reports</cite>. 2020;10:12598. <a href="https://doi.org/10.1038/s41598-020-69250-1">doi:10.1038/s41598-020-69250-1</a></li>
+          <li>Dayan I, et al. Federated learning for predicting clinical outcomes in patients with COVID-19. <cite>Nature Medicine</cite>. 2021;27(10):1735-1743. <a href="https://doi.org/10.1038/s41591-021-01506-3">doi:10.1038/s41591-021-01506-3</a></li>
+          <li>Zhu L, et al. Deep leakage from gradients. <cite>Advances in Neural Information Processing Systems</cite>. 2019. <a href="https://arxiv.org/abs/1906.08935">arXiv:1906.08935</a></li>
+        </ol>
+      </section>
+
+      <section class="related" id="related" aria-label="相關主題"></section>
+      <nav class="pager" id="pager" aria-label="上一篇與下一篇"></nav>
+    </article>
+
+    <aside class="toc" id="toc" aria-label="本頁目次"></aside>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>醫學影像 AI｜醫療人工智慧概念講義</title>
+  <meta name="description" content="以深度學習分析 X 光、電腦斷層、磁振造影與病理切片等醫學影像，協助病灶偵測、分類與分割的技術。">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../data/site.js" defer></script>
+  <script src="../data/topics.js" defer></script>
+  <script src="../data/glossary.js" defer></script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body data-page="topic" data-root=".." data-slug="medical-imaging-ai">
+  <header id="site-header"></header>
+
+  <main class="container article-layout">
+    <article class="topic">
+      <nav class="breadcrumb" id="breadcrumb" aria-label="導覽路徑"></nav>
+      <h1>醫學影像 AI</h1>
+      <p class="title-en">Medical Imaging AI</p>
+      <div class="topic-meta" id="topic-meta"></div>
+
+      <section id="summary" class="summary">
+        <h2>摘要</h2>
+        <p>醫學影像 AI 是指以深度學習等機器學習方法分析 X 光、電腦斷層、磁振造影、眼底照相與數位病理等影像，自動完成病灶偵測、疾病分類或病灶分割的技術，主要用於輔助判讀、篩檢分流與減輕醫師的判讀負擔。</p>
+      </section>
+
+      <section id="background">
+        <h2>背景與動機</h2>
+        <p>醫學影像是臨床診斷的重要依據，但影像檢查量逐年增加，判讀工作高度仰賴專科醫師的經驗。不同醫師對同一張影像的判讀可能不一致；在專科醫師人力不足的地區，篩檢與診斷也容易延誤。</p>
+        <p>2012 年以後，深度學習在一般影像辨識任務上大幅超越傳統方法。醫學影像多以 DICOM 格式數位化保存，累積了大量可用於訓練的資料，因此成為醫療人工智慧發展最早、也最成熟的領域之一。</p>
+      </section>
+
+      <section id="principle">
+        <h2>核心原理</h2>
+        <p>目前最常見的架構是<a class="term" href="../glossary.html#cnn">卷積神經網路</a>（Convolutional Neural Network, CNN）。CNN 以可學習的濾波器在影像上滑動，擷取邊緣、紋理等局部特徵，再經由多層堆疊，逐步組合出器官輪廓、病灶形態等較高階的特徵。依照輸出形式，醫學影像 AI 的任務可分為三類：</p>
+        <div class="table-wrap">
+          <table>
+            <caption>醫學影像 AI 的三種常見任務</caption>
+            <thead>
+              <tr><th>任務</th><th>輸出</th><th>臨床例子</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>分類</td><td>整張影像的類別或機率</td><td>判斷眼底照片是否有需轉診的糖尿病視網膜病變</td></tr>
+              <tr><td>偵測</td><td>病灶位置的邊界框</td><td>標示胸部 X 光中的肺結節位置</td></tr>
+              <tr><td>分割</td><td>每個像素所屬的類別</td><td>圈選腫瘤範圍，以估算體積或規劃放射治療</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>其中，<a class="term" href="../glossary.html#segmentation">影像分割</a>（Image Segmentation）常採用 Ronneberger 等人（2015）提出的 U-Net 架構。該架構以編碼與解碼路徑搭配跳躍連接，在標註資料有限時仍能產生精細的分割結果。</p>
+        <p>由於醫學影像的標註需要專科醫師投入大量時間，實務上常使用<a class="term" href="../glossary.html#transfer-learning">遷移學習</a>（Transfer Learning）：先以大量一般影像預訓練模型，再以少量醫學影像微調，以降低對標註資料量的需求。</p>
+        <p>模型效能通常以<a class="term" href="../glossary.html#sensitivity-specificity">敏感度與特異度</a>（Sensitivity and Specificity），以及 <a class="term" href="../glossary.html#auc">ROC 曲線下面積</a>（Area Under the ROC Curve, AUC）評估。篩檢情境較重視高敏感度以避免漏診；確診情境則需兼顧特異度，以減少不必要的後續檢查。</p>
+      </section>
+
+      <section id="applications">
+        <h2>臨床應用案例</h2>
+        <h3>糖尿病視網膜病變篩檢</h3>
+        <p>Gulshan 等人（2016）以超過 12 萬張眼底照片訓練深度學習模型，在兩組驗證資料中偵測需轉診之糖尿病視網膜病變的 AUC 分別為 0.991 與 0.990。其後，IDx-DR 系統在美國基層醫療院所完成前瞻性樞紐試驗，敏感度為 87.2%，特異度為 90.7%（Abràmoff 等人，2018），並於 2018 年獲美國食品藥物管理局（FDA）核准，成為第一個不需醫師判讀影像即可提供篩檢結果的自主式 AI 診斷系統。</p>
+        <h3>皮膚病灶分類</h3>
+        <p>Esteva 等人（2017）以約 13 萬張臨床皮膚影像訓練 CNN，在區分惡性與良性皮膚病灶的任務上，表現與 21 位皮膚科專科醫師相當。此研究顯示一般相機拍攝的影像也可能用於初步篩檢，但影像品質與膚色分布會影響模型的適用範圍。</p>
+        <h3>乳房攝影篩檢</h3>
+        <p>McKinney 等人（2020）以英國與美國的乳房攝影資料評估 AI 系統。與原本的臨床判讀相比，該系統在美國資料中使偽陽性與偽陰性分別減少 5.7 與 9.4 個百分點，在英國資料中則分別減少 1.2 與 2.7 個百分點。</p>
+        <h3>胸部 X 光判讀</h3>
+        <p>Rajpurkar 等人（2017）提出的 CheXNet 以 ChestX-ray14 資料集中超過 10 萬張胸部 X 光訓練，可同時判斷 14 種病徵，並在肺炎偵測任務上與放射科醫師進行比較。此類公開資料集大幅降低了研究門檻，但其標籤多由報告文字自動擷取，品質仍有爭議。</p>
+      </section>
+
+      <section id="limitations">
+        <h2>限制與風險</h2>
+        <ul>
+          <li><strong>泛化能力不足</strong>：Zech 等人（2018）發現，以單一醫院資料訓練的肺炎偵測模型，在其他醫院資料上的表現明顯下降；模型甚至能辨識影像來自哪一家醫院，顯示其可能依賴與疾病無關的特徵，即<a class="term" href="../glossary.html#shortcut-learning">捷徑學習</a>（Shortcut Learning）。</li>
+          <li><strong>標註成本與品質</strong>：高品質標註需要專科醫師投入大量時間，不同醫師的標註也可能不一致，進而影響模型學到的判斷標準。</li>
+          <li><strong>資料代表性</strong>：若訓練資料缺乏特定族群、膚色或設備廠牌，模型在這些族群或設備上的表現可能較差。</li>
+          <li><strong>臨床證據有限</strong>：Nagendran 等人（2020）的系統性回顧指出，多數比較深度學習與醫師表現的研究為回顧性設計，隨機對照試驗很少，且常有偏誤風險與過度推論的結論。</li>
+          <li><strong>工作流程與責任</strong>：AI 結果如何呈現給醫師、判讀錯誤時責任如何歸屬，都需要在導入前事先規劃。</li>
+        </ul>
+      </section>
+
+      <section id="key-points">
+        <h2>重點整理</h2>
+        <ul>
+          <li>醫學影像 AI 以 CNN 為主要架構，常見任務包括分類、偵測與分割。</li>
+          <li>遷移學習可降低模型對大量標註資料的需求。</li>
+          <li>篩檢情境重視敏感度，確診情境需兼顧特異度，評估指標須依臨床用途選擇。</li>
+          <li>單一機構的優異結果不代表能直接推廣，<a class="term" href="../glossary.html#external-validation">外部驗證</a>（External Validation）與前瞻性研究是導入前的必要證據。</li>
+        </ul>
+      </section>
+
+      <section id="references">
+        <h2>參考資料</h2>
+        <ol>
+          <li>Gulshan V, et al. Development and validation of a deep learning algorithm for detection of diabetic retinopathy in retinal fundus photographs. <cite>JAMA</cite>. 2016;316(22):2402-2410. <a href="https://doi.org/10.1001/jama.2016.17216">doi:10.1001/jama.2016.17216</a></li>
+          <li>Abràmoff MD, et al. Pivotal trial of an autonomous AI-based diagnostic system for detection of diabetic retinopathy in primary care offices. <cite>npj Digital Medicine</cite>. 2018;1:39. <a href="https://doi.org/10.1038/s41746-018-0040-6">doi:10.1038/s41746-018-0040-6</a></li>
+          <li>Esteva A, et al. Dermatologist-level classification of skin cancer with deep neural networks. <cite>Nature</cite>. 2017;542(7639):115-118. <a href="https://doi.org/10.1038/nature21056">doi:10.1038/nature21056</a></li>
+          <li>McKinney SM, et al. International evaluation of an AI system for breast cancer screening. <cite>Nature</cite>. 2020;577(7788):89-94. <a href="https://doi.org/10.1038/s41586-019-1799-6">doi:10.1038/s41586-019-1799-6</a></li>
+          <li>Rajpurkar P, et al. CheXNet: Radiologist-level pneumonia detection on chest X-rays with deep learning. arXiv preprint. 2017. <a href="https://arxiv.org/abs/1711.05225">arXiv:1711.05225</a></li>
+          <li>Ronneberger O, et al. U-Net: Convolutional networks for biomedical image segmentation. <cite>MICCAI</cite>. 2015. <a href="https://arxiv.org/abs/1505.04597">arXiv:1505.04597</a></li>
+          <li>Zech JR, et al. Variable generalization performance of a deep learning model to detect pneumonia in chest radiographs: A cross-sectional study. <cite>PLOS Medicine</cite>. 2018;15(11):e1002683. <a href="https://doi.org/10.1371/journal.pmed.1002683">doi:10.1371/journal.pmed.1002683</a></li>
+          <li>Nagendran M, et al. Artificial intelligence versus clinicians: systematic review of design, reporting standards, and claims of deep learning studies. <cite>BMJ</cite>. 2020;368:m689. <a href="https://doi.org/10.1136/bmj.m689">doi:10.1136/bmj.m689</a></li>
+        </ol>
+      </section>
+
+      <section class="related" id="related" aria-label="相關主題"></section>
+      <nav class="pager" id="pager" aria-label="上一篇與下一篇"></nav>
+    </article>
+
+    <aside class="toc" id="toc" aria-label="本頁目次"></aside>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

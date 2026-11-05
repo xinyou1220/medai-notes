@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>可解釋人工智慧｜醫療人工智慧概念講義</title>
+  <meta name="description" content="說明模型為何做出某一預測的方法，例如標示影像中的關鍵區域或列出主要風險因子，協助醫師檢查模型的判斷依據是否合理。">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../data/site.js" defer></script>
+  <script src="../data/topics.js" defer></script>
+  <script src="../data/glossary.js" defer></script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body data-page="topic" data-root=".." data-slug="explainable-ai">
+  <header id="site-header"></header>
+
+  <main class="container article-layout">
+    <article class="topic">
+      <nav class="breadcrumb" id="breadcrumb" aria-label="導覽路徑"></nav>
+      <h1>可解釋人工智慧</h1>
+      <p class="title-en">Explainable Artificial Intelligence</p>
+      <div class="topic-meta" id="topic-meta"></div>
+
+      <section id="summary" class="summary">
+        <h2>摘要</h2>
+        <p>可解釋人工智慧是指說明模型為何做出某一預測的方法，例如標示影像中影響判斷的區域，或列出對風險預測影響最大的臨床變項，可協助醫師檢查模型是否依據合理的特徵做出判斷，並找出潛在的錯誤。</p>
+      </section>
+
+      <section id="background">
+        <h2>背景與動機</h2>
+        <p>深度學習模型包含大量參數，使用者通常只能看到輸入與輸出，無法直接理解其判斷過程，因此常被稱為「黑箱」。在醫療情境中，醫師必須對臨床決策負責，若無法理解模型的判斷依據，便難以判斷何時應採納、何時應懷疑模型的結果。</p>
+        <p>更重要的是，模型可能在測試資料上表現良好，實際上卻依賴與疾病無關的特徵，這種現象稱為<a class="term" href="../glossary.html#shortcut-learning">捷徑學習</a>（Shortcut Learning）。DeGrave 等人（2021）分析以胸部 X 光偵測 COVID-19 的模型，發現模型會利用影像中的文字標記與病人擺位等與病理無關的因素做出判斷。單看準確率無法發現這類問題，解釋方法則提供了檢查的途徑。</p>
+      </section>
+
+      <section id="principle">
+        <h2>核心原理</h2>
+        <p>解釋方法可依兩個面向分類。第一是解釋的來源：內在可解釋模型本身結構簡單，例如決策樹或線性迴歸，可直接檢視其規則或係數；事後解釋則是在複雜模型訓練完成後，另外以方法分析其行為。第二是解釋的範圍：局部解釋說明單一病人的預測結果，全域解釋則說明模型整體依賴哪些特徵。</p>
+        <p>醫療研究中常見的事後解釋方法如下：</p>
+        <div class="table-wrap">
+          <table>
+            <caption>常見的事後解釋方法</caption>
+            <thead>
+              <tr><th>方法</th><th>基本概念</th><th>常見資料類型</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Grad-CAM</td><td>利用預測結果對卷積層特徵圖的梯度，產生標示關鍵區域的熱圖</td><td>醫學影像</td></tr>
+              <tr><td>SHAP</td><td>以賽局理論的 Shapley 值，分配每個特徵對預測結果的貢獻</td><td>表格資料，例如檢驗數值與生命徵象</td></tr>
+              <tr><td>LIME</td><td>在單一樣本附近產生擾動資料，以簡單模型近似複雜模型的局部行為</td><td>表格、文字與影像</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><a class="term" href="../glossary.html#grad-cam">梯度加權類別活化映射</a>（Gradient-weighted Class Activation Mapping, Grad-CAM）由 Selvaraju 等人（2017）提出，適用於<a class="term" href="../glossary.html#cnn">卷積神經網路</a>（Convolutional Neural Network, CNN），可將熱圖疊加在原始影像上，讓醫師檢查模型關注的位置是否與病灶相符。<a class="term" href="../glossary.html#shap">SHAP</a>（SHapley Additive exPlanations）由 Lundberg 與 Lee（2017）提出，可說明每位病人的風險分數由哪些變項推高或降低。LIME 則由 Ribeiro 等人（2016）提出，不需要了解模型內部結構即可使用。</p>
+      </section>
+
+      <section id="applications">
+        <h2>臨床應用案例</h2>
+        <h3>手術中低血氧預警：Prescience</h3>
+        <p>Lundberg 等人（2018）以手術室的麻醉紀錄資料開發 Prescience 系統，即時預測病人在手術中發生低血氧的風險，並以 SHAP 類型的方法說明目前推高風險的因素，例如病人特徵與生命徵象的變化。研究中，麻醉科醫師在參考系統的預測與解釋後，預測低血氧事件的表現較未參考時提升，顯示解釋可協助醫師理解並運用模型結果。</p>
+        <h3>以解釋方法發現捷徑學習</h3>
+        <p>DeGrave 等人（2021）以顯著圖與生成模型等解釋方法，檢查多個以胸部 X 光偵測 COVID-19 的模型，發現模型的判斷依據常落在影像邊緣的文字標記或與擺位相關的區域，而非肺部病灶；當模型套用到其他來源的資料時，表現也明顯下降。此案例說明，解釋方法的重要用途之一，是在模型導入臨床前找出其不可靠的判斷依據。</p>
+      </section>
+
+      <section id="limitations">
+        <h2>限制與風險</h2>
+        <ul>
+          <li><strong>解釋不等於因果</strong>：熱圖或特徵貢獻只說明模型如何使用輸入資料，不代表該特徵與疾病之間存在因果關係。</li>
+          <li><strong>解釋可能不忠實</strong>：Adebayo 等人（2018）發現，部分顯著圖方法在模型參數被隨機化後仍產生相似的結果，表示這些方法未必反映模型真正學到的內容。</li>
+          <li><strong>可能造成過度信任</strong>：Ghassemi 等人（2021）指出，看似合理的解釋可能使使用者對模型產生不當的信心；對單一病人的事後解釋，也不足以確認模型在該病人身上判斷正確。</li>
+          <li><strong>不同方法結果不一致</strong>：對同一個模型與同一位病人，不同解釋方法可能標示不同的關鍵特徵，使用者難以判斷應以何者為準。</li>
+        </ul>
+      </section>
+
+      <section id="key-points">
+        <h2>重點整理</h2>
+        <ul>
+          <li>可解釋人工智慧協助使用者理解模型的判斷依據，並檢查模型是否依賴不合理的特徵。</li>
+          <li>Grad-CAM 常用於醫學影像，SHAP 常用於表格型臨床資料。</li>
+          <li>解釋方法有助於在導入前發現捷徑學習，但本身也需要驗證其可靠性。</li>
+          <li>解釋結果不能取代嚴謹的外部驗證與臨床試驗。</li>
+        </ul>
+      </section>
+
+      <section id="references">
+        <h2>參考資料</h2>
+        <ol>
+          <li>DeGrave AJ, et al. AI for radiographic COVID-19 detection selects shortcuts over signal. <cite>Nature Machine Intelligence</cite>. 2021;3(7):610-619. <a href="https://doi.org/10.1038/s42256-021-00338-7">doi:10.1038/s42256-021-00338-7</a></li>
+          <li>Selvaraju RR, et al. Grad-CAM: Visual explanations from deep networks via gradient-based localization. <cite>Proceedings of the IEEE International Conference on Computer Vision (ICCV)</cite>. 2017. <a href="https://arxiv.org/abs/1610.02391">arXiv:1610.02391</a></li>
+          <li>Lundberg SM, Lee SI. A unified approach to interpreting model predictions. <cite>Advances in Neural Information Processing Systems</cite>. 2017. <a href="https://arxiv.org/abs/1705.07874">arXiv:1705.07874</a></li>
+          <li>Ribeiro MT, et al. "Why should I trust you?": Explaining the predictions of any classifier. <cite>Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</cite>. 2016. <a href="https://arxiv.org/abs/1602.04938">arXiv:1602.04938</a></li>
+          <li>Lundberg SM, et al. Explainable machine-learning predictions for the prevention of hypoxaemia during surgery. <cite>Nature Biomedical Engineering</cite>. 2018;2(10):749-760. <a href="https://doi.org/10.1038/s41551-018-0304-0">doi:10.1038/s41551-018-0304-0</a></li>
+          <li>Adebayo J, et al. Sanity checks for saliency maps. <cite>Advances in Neural Information Processing Systems</cite>. 2018. <a href="https://arxiv.org/abs/1810.03292">arXiv:1810.03292</a></li>
+          <li>Ghassemi M, et al. The false hope of current approaches to explainable artificial intelligence in health care. <cite>The Lancet Digital Health</cite>. 2021;3(11):e745-e750. <a href="https://doi.org/10.1016/S2589-7500(21)00208-9">doi:10.1016/S2589-7500(21)00208-9</a></li>
+        </ol>
+      </section>
+
+      <section class="related" id="related" aria-label="相關主題"></section>
+      <nav class="pager" id="pager" aria-label="上一篇與下一篇"></nav>
+    </article>
+
+    <aside class="toc" id="toc" aria-label="本頁目次"></aside>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>
