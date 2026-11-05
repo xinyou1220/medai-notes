@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>醫療人工智慧概念講義</title>
+  <meta name="description" content="以臨床情境為核心，整理醫療人工智慧的重要概念、應用案例與限制。">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="data/site.js" defer></script>
+  <script src="data/topics.js" defer></script>
+  <script src="data/glossary.js" defer></script>
+  <script src="assets/js/site.js" defer></script>
+</head>
+<body data-page="home" data-root=".">
+  <header id="site-header"></header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>醫療人工智慧概念講義</h1>
+      <p class="lead">本講義以臨床情境為核心，整理醫療人工智慧的重要概念、代表性應用案例與限制。每個主題皆依相同的架構撰寫：摘要、背景與動機、核心原理、臨床應用案例、限制與風險、重點整理與參考資料，方便依序閱讀，也方便日後持續擴充。</p>
+      <ul class="stats" id="stats" aria-label="內容統計"></ul>
+    </section>
+
+    <section id="topics" aria-labelledby="topics-title">
+      <h2 class="section-title" id="topics-title">主題列表</h2>
+      <div class="toolbar">
+        <label class="visually-hidden" for="topic-search">搜尋主題</label>
+        <input class="search-input" id="topic-search" type="search" placeholder="搜尋主題名稱、英文名稱或摘要">
+        <span class="level-tag" id="result-count" aria-live="polite"></span>
+      </div>
+      <div class="toolbar">
+        <div class="chip-group" id="category-filter" aria-label="依分類篩選"></div>
+        <div class="chip-group" id="level-filter" aria-label="依難度篩選"></div>
+      </div>
+      <ul class="card-grid" id="topic-grid"></ul>
+    </section>
+
+    <section aria-labelledby="path-title">
+      <h2 class="section-title" id="path-title">建議閱讀順序</h2>
+      <ol class="reading-path" id="reading-path"></ol>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

@@ -1,0 +1,800 @@
+/*
+ * 醫療人工智慧概念講義：全站樣式
+ * 規則：
+ * 1. 顏色、字型、間距一律使用下方的設計變數（design tokens），不得在其他地方寫死色碼。
+ * 2. HTML 中不得使用 style 屬性；需要新樣式時，在此檔案新增 class，並更新 AGENTS.md 的元件清單。
+ * 3. 每個分類都必須有對應的 --cat-<分類 id> 變數，淺色與深色模式皆需定義。
+ */
+
+/* ---------- 設計變數：淺色模式 ---------- */
+:root {
+  --color-bg: #f6f8fa;
+  --color-surface: #ffffff;
+  --color-surface-alt: #eef2f5;
+  --color-ink: #1c2630;
+  --color-muted: #5a6876;
+  --color-border: #d9e0e7;
+  --color-primary: #0e6b6b;
+  --color-primary-strong: #0a5252;
+  --color-primary-soft: #e2f0ef;
+  --color-note-bg: #edf3fa;
+  --color-note-border: #4677b0;
+  --color-warning-bg: #fbf2e3;
+  --color-warning-border: #c98a24;
+  --color-highlight: #fff4c2;
+
+  --cat-imaging: #2e66a3;
+  --cat-clinical-text: #6e4aa6;
+  --cat-data-privacy: #9a6224;
+  --cat-trustworthy-ai: #2a7d52;
+  --cat-regulation: #9c3d45;
+
+  --font-sans: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", system-ui, sans-serif;
+  --font-serif: "Noto Serif TC", "Songti TC", "PMingLiU", serif;
+  --font-mono: "Cascadia Code", "Consolas", "Menlo", monospace;
+
+  --radius: 10px;
+  --radius-small: 6px;
+  --shadow: 0 1px 2px rgba(16, 32, 48, 0.06), 0 4px 14px rgba(16, 32, 48, 0.06);
+  --measure: 46rem;
+  --container: 72rem;
+  --header-height: 3.75rem;
+}
+
+/* ---------- 設計變數：深色模式 ---------- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #11171d;
+    --color-surface: #18212a;
+    --color-surface-alt: #202b36;
+    --color-ink: #e3e9ee;
+    --color-muted: #9cabb8;
+    --color-border: #2d3a46;
+    --color-primary: #5cc3bd;
+    --color-primary-strong: #84d6d1;
+    --color-primary-soft: #18363a;
+    --color-note-bg: #1a2735;
+    --color-note-border: #6f9fd6;
+    --color-warning-bg: #2c2416;
+    --color-warning-border: #d9a447;
+    --color-highlight: #3d3615;
+
+    --cat-imaging: #7fb0e6;
+    --cat-clinical-text: #b49ae0;
+    --cat-data-privacy: #ddb07a;
+    --cat-trustworthy-ai: #7ccaa0;
+    --cat-regulation: #e3939a;
+
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 14px rgba(0, 0, 0, 0.25);
+  }
+}
+
+/* ---------- 基礎 ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: calc(var(--header-height) + 1rem);
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--color-primary);
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--color-primary-strong);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  line-height: 1.4;
+  color: var(--color-ink);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--color-surface-alt);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- 頁首與頁尾 ---------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--header-height);
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.brand-name {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.brand-en {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  letter-spacing: 0.04em;
+}
+
+.site-nav ul {
+  display: flex;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav a {
+  display: block;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-small);
+  color: var(--color-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.site-nav a:hover {
+  color: var(--color-ink);
+  background: var(--color-surface-alt);
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+  font-weight: 600;
+}
+
+.site-footer {
+  margin-top: 4rem;
+  padding: 2rem 0 2.5rem;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.site-footer p {
+  margin: 0.25rem 0;
+}
+
+/* ---------- 首頁 ---------- */
+.hero {
+  padding: 3.5rem 0 2rem;
+}
+
+.hero h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.hero .lead {
+  max-width: var(--measure);
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 1.1rem;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stats li {
+  display: flex;
+  flex-direction: column;
+}
+
+.stats strong {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--color-primary);
+}
+
+.stats span {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.section-title {
+  margin: 2.5rem 0 1rem;
+  font-size: 1.4rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.search-input {
+  flex: 1 1 16rem;
+  min-width: 0;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-small);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.search-input:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 1px;
+}
+
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-muted);
+  font: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.chip:hover {
+  color: var(--color-ink);
+}
+
+.chip[aria-pressed="true"] {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.25rem 1.25rem 1.1rem;
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--cat-color, var(--color-primary));
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  box-shadow: var(--shadow);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  color: inherit;
+}
+
+.card h3 {
+  margin: 0.5rem 0 0;
+  font-size: 1.2rem;
+}
+
+.card .title-en {
+  margin: 0.1rem 0 0.6rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--color-muted);
+  line-height: 1.75;
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.empty-state {
+  padding: 2rem;
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  text-align: center;
+  color: var(--color-muted);
+}
+
+.reading-path {
+  max-width: var(--measure);
+  padding-left: 1.5rem;
+}
+
+.reading-path li {
+  margin: 0.35rem 0;
+}
+
+/* ---------- 分類標籤 ---------- */
+.cat-tag {
+  display: inline-block;
+  padding: 0.05rem 0.6rem;
+  border: 1px solid var(--cat-color, var(--color-primary));
+  border-radius: 999px;
+  color: var(--cat-color, var(--color-primary));
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.7;
+  white-space: nowrap;
+}
+
+.level-tag {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+[data-category="imaging"] { --cat-color: var(--cat-imaging); }
+[data-category="clinical-text"] { --cat-color: var(--cat-clinical-text); }
+[data-category="data-privacy"] { --cat-color: var(--cat-data-privacy); }
+[data-category="trustworthy-ai"] { --cat-color: var(--cat-trustworthy-ai); }
+[data-category="regulation"] { --cat-color: var(--cat-regulation); }
+
+/* ---------- 主題頁 ---------- */
+.article-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.5rem;
+  padding-top: 2rem;
+}
+
+@media (min-width: 64rem) {
+  .article-layout {
+    grid-template-columns: minmax(0, var(--measure)) 15rem;
+    justify-content: center;
+  }
+}
+
+.breadcrumb {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.breadcrumb ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumb li + li::before {
+  content: "/";
+  margin-right: 0.4rem;
+  color: var(--color-border);
+}
+
+.topic h1 {
+  margin: 0.75rem 0 0;
+  font-size: clamp(1.75rem, 4vw, 2.3rem);
+}
+
+.title-en {
+  margin: 0.15rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+}
+
+.topic-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0 0.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.topic section {
+  margin-top: 2.25rem;
+}
+
+.topic h2 {
+  margin: 0 0 0.75rem;
+  padding-left: 0.75rem;
+  border-left: 4px solid var(--color-primary);
+  font-size: 1.4rem;
+}
+
+.topic h3 {
+  margin: 1.5rem 0 0.4rem;
+  font-size: 1.1rem;
+}
+
+.topic p,
+.topic li {
+  text-align: justify;
+}
+
+.topic ul,
+.topic ol {
+  padding-left: 1.4rem;
+}
+
+.topic li {
+  margin: 0.3rem 0;
+}
+
+.summary {
+  padding: 1.1rem 1.35rem;
+  border-radius: var(--radius);
+  background: var(--color-primary-soft);
+}
+
+.summary h2 {
+  border-left: none;
+  padding-left: 0;
+  font-size: 1.05rem;
+  color: var(--color-primary);
+}
+
+.summary p {
+  margin: 0;
+}
+
+.note,
+.warning {
+  margin: 1.25rem 0;
+  padding: 0.85rem 1.1rem;
+  border-left: 4px solid;
+  border-radius: 0 var(--radius-small) var(--radius-small) 0;
+  font-size: 0.97rem;
+}
+
+.note {
+  border-color: var(--color-note-border);
+  background: var(--color-note-bg);
+}
+
+.warning {
+  border-color: var(--color-warning-border);
+  background: var(--color-warning-bg);
+}
+
+.note p,
+.warning p {
+  margin: 0;
+}
+
+.note .label,
+.warning .label {
+  display: block;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.table-wrap {
+  margin: 1.25rem 0;
+  overflow-x: auto;
+}
+
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.table-wrap caption {
+  margin-bottom: 0.4rem;
+  text-align: left;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+.table-wrap th,
+.table-wrap td {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--color-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table-wrap th {
+  background: var(--color-surface-alt);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+a.term {
+  color: inherit;
+  text-decoration: underline dotted var(--color-primary);
+  text-decoration-thickness: 1.5px;
+}
+
+a.term:hover {
+  color: var(--color-primary);
+}
+
+#references ol {
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+#references li {
+  margin: 0.55rem 0;
+  text-align: left;
+  word-break: break-word;
+}
+
+.related {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.related h2 {
+  border-left: none;
+  padding-left: 0;
+  font-size: 1.1rem;
+}
+
+.related .card-grid {
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+}
+
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.pager a {
+  display: block;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  text-decoration: none;
+}
+
+.pager span {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+.pager .next {
+  grid-column: 2;
+  text-align: right;
+}
+
+/* ---------- 目次 ---------- */
+.toc {
+  display: none;
+}
+
+@media (min-width: 64rem) {
+  .toc {
+    display: block;
+    position: sticky;
+    top: calc(var(--header-height) + 1.5rem);
+    align-self: start;
+    font-size: 0.88rem;
+  }
+}
+
+.toc h2 {
+  margin: 0 0 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+}
+
+.toc ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 2px solid var(--color-border);
+}
+
+.toc a {
+  display: block;
+  padding: 0.25rem 0 0.25rem 0.85rem;
+  margin-left: -2px;
+  border-left: 2px solid transparent;
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.toc a:hover,
+.toc a.active {
+  border-left-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ---------- 名詞表 ---------- */
+.glossary-list {
+  max-width: var(--measure);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.term-entry {
+  padding: 1.1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.term-entry:target {
+  border-color: var(--color-primary);
+  background: var(--color-highlight);
+}
+
+.term-entry h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.term-entry .title-en {
+  margin-bottom: 0.4rem;
+}
+
+.term-entry p {
+  margin: 0.25rem 0;
+}
+
+.term-topics {
+  font-size: 0.88rem;
+  color: var(--color-muted);
+}
+
+/* ---------- 一般內文頁（關於本站） ---------- */
+.prose {
+  max-width: var(--measure);
+  padding-top: 2rem;
+}
+
+.prose h1 {
+  font-size: clamp(1.75rem, 4vw, 2.2rem);
+  margin: 0 0 1rem;
+}
+
+.prose h2 {
+  margin-top: 2.25rem;
+  font-size: 1.35rem;
+}
+
+/* ---------- 小螢幕 ---------- */
+@media (max-width: 40rem) {
+  body {
+    font-size: 1rem;
+  }
+
+  .site-header .container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.25rem;
+  }
+
+  .site-nav a {
+    padding: 0.3rem 0.6rem;
+  }
+
+  .brand-en {
+    display: none;
+  }
+
+  .pager {
+    grid-template-columns: 1fr;
+  }
+
+  .pager .next {
+    grid-column: 1;
+  }
+}
+
+/* ---------- 列印（講義用途） ---------- */
+@media print {
+  .site-header,
+  .site-footer,
+  .toc,
+  .pager,
+  .related {
+    display: none;
+  }
+
+  body {
+    background: #ffffff;
+    color: #000000;
+  }
+
+  .article-layout {
+    display: block;
+  }
+
+  a {
+    color: inherit;
+  }
+}
