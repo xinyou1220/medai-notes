@@ -43,9 +43,14 @@ const warn = (where, message) => warnings.push(`${where}：${message}`);
 const charCount = (s) => [...String(s).replace(/\s+/g, "")].length;
 const inRange = (n, [min, max]) => n >= min && n <= max;
 
+// 區塊層級標籤（段落、清單項目、表格儲存格等）視為文字邊界，轉為換行，
+// 避免相鄰儲存格的文字被誤判為同一句；行內標籤（a、strong 等）直接移除。
+const BLOCK_TAG = /<\/?(?:p|li|ul|ol|td|th|tr|thead|tbody|table|caption|h[1-6]|div|section|br)\b[^>]*>/gi;
+
 function stripTags(html) {
   return html
     .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(BLOCK_TAG, "\n")
     .replace(/<[^>]+>/g, "")
     .replace(/&nbsp;/g, " ")
     .replace(/&lt;/g, "<")
