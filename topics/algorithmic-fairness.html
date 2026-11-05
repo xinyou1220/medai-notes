@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>演算法公平性與偏誤｜醫療人工智慧概念講義</title>
+  <meta name="description" content="探討醫療 AI 在不同性別、族群與社經背景病人之間表現不一致的現象，並說明偏誤的來源、評估方式與改善策略。">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <script src="../data/site.js" defer></script>
+  <script src="../data/topics.js" defer></script>
+  <script src="../data/glossary.js" defer></script>
+  <script src="../assets/js/site.js" defer></script>
+</head>
+<body data-page="topic" data-root=".." data-slug="algorithmic-fairness">
+  <header id="site-header"></header>
+
+  <main class="container article-layout">
+    <article class="topic">
+      <nav class="breadcrumb" id="breadcrumb" aria-label="導覽路徑"></nav>
+      <h1>演算法公平性與偏誤</h1>
+      <p class="title-en">Algorithmic Fairness and Bias</p>
+      <div class="topic-meta" id="topic-meta"></div>
+
+      <section id="summary" class="summary">
+        <h2>摘要</h2>
+        <p>演算法公平性是指醫療 AI 在不同性別、年齡、族群與社經背景的病人之間，能否維持一致的表現與合理的資源分配。偏誤可能來自資料、標籤、測量工具或部署方式，若未及早發現，可能擴大既有的健康不平等。</p>
+      </section>
+
+      <section id="background">
+        <h2>背景與動機</h2>
+        <p>不同族群之間的醫療資源可近性與健康結果，原本就存在差異。AI 模型從歷史資料中學習，若資料本身反映了這些差異，模型便可能複製甚至放大它們，形成<a class="term" href="../glossary.html#algorithmic-bias">演算法偏誤</a>（Algorithmic Bias）。由於模型常以整體準確率呈現成果，對少數族群表現較差的問題容易被平均值掩蓋。</p>
+        <p>Rajkomar 等人（2018）指出，偏誤可能出現在模型設計、資料收集與臨床部署等各個階段，並建議從病人結果、模型效能與資源分配三個面向，檢視模型是否促進健康公平。</p>
+      </section>
+
+      <section id="principle">
+        <h2>核心原理</h2>
+        <p>醫療 AI 的偏誤來源大致可分為以下幾類：</p>
+        <div class="table-wrap">
+          <table>
+            <caption>醫療 AI 常見的偏誤來源</caption>
+            <thead>
+              <tr><th>來源</th><th>說明</th><th>例子</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>資料代表性不足</td><td>訓練資料中特定族群的比例過低</td><td>皮膚影像資料集以淺膚色病人為主</td></tr>
+              <tr><td>測量偏誤</td><td>量測工具在不同族群的準確度不同</td><td>脈衝血氧儀在部分病人身上高估血氧濃度</td></tr>
+              <tr><td>標籤偏誤</td><td>以帶有偏誤的指標作為訓練目標</td><td>以醫療費用代表健康需求</td></tr>
+              <tr><td>部署落差</td><td>模型的使用方式或可近性因族群而異</td><td>僅在資源充足的醫療機構導入</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>測量偏誤的例子之一是脈衝血氧儀。Sjoding 等人（2020）比較同一時間的血氧儀讀數與動脈血氣分析結果，發現血氧儀未能偵測的隱性低血氧，在黑人病人中的發生比例為 11.7%，在白人病人中為 3.6%。若以這類數據訓練模型，偏誤便會直接進入模型的輸入。標籤偏誤則常與<a class="term" href="../glossary.html#proxy-variable">代理變項</a>（Proxy Variable）有關：Obermeyer 等人（2019）分析的照護管理演算法以醫療費用代表健康需求，使醫療支出較低的黑人病人被系統性低估。</p>
+        <p>評估公平性的基本方法是分群分析，即依性別、年齡、族群或保險類別分別計算<a class="term" href="../glossary.html#sensitivity-specificity">敏感度與特異度</a>（Sensitivity and Specificity）、偽陰性率與校準程度，而不只報告整體結果。需要注意的是，不同的公平性定義之間可能互相衝突，例如要求各群體的偽陰性率相同，未必能同時讓各群體的預測機率都準確，因此須依臨床情境決定優先目標。</p>
+      </section>
+
+      <section id="applications">
+        <h2>臨床應用案例</h2>
+        <h3>胸部 X 光模型的診斷不足偏誤</h3>
+        <p>Seyyed-Kalantari 等人（2021）以三個大型公開胸部 X 光資料集訓練分類模型，發現模型較常把女性、黑人、西班牙裔、年輕族群與使用 Medicaid 保險的病人誤判為「無異常」，即對這些族群有診斷不足的傾向；同時屬於多個弱勢群體的病人，偏誤更為明顯。</p>
+        <h3>皮膚科 AI 在深膚色病人的表現落差</h3>
+        <p>Daneshjou 等人（2022）建立經病理確認、涵蓋多元膚色的皮膚影像資料集，評估多個先進的皮膚科 AI 模型。結果顯示這些模型在該資料集上的表現明顯低於原始研究所報告的數值，且在 Fitzpatrick 分類第 V 至 VI 型的深膚色病人與罕見疾病上落差更大；以多元膚色資料微調後，膚色之間的表現差距得以縮小。</p>
+        <h3>模型可從醫學影像辨識病人族群</h3>
+        <p>Gichoya 等人（2022）發現，深度學習模型能從胸部 X 光、電腦斷層與乳房攝影等影像，以高準確度預測病人自述的族群，即使影像經過降低解析度或濾波處理仍然如此，而醫師無法從影像做出相同判斷。這表示模型在判讀疾病時，可能在使用者不知情的情況下利用與族群相關的訊號，形成<a class="term" href="../glossary.html#shortcut-learning">捷徑學習</a>（Shortcut Learning），並導致不同族群的表現差異。</p>
+      </section>
+
+      <section id="limitations">
+        <h2>限制與風險</h2>
+        <ul>
+          <li><strong>族群資訊不完整</strong>：許多資料集未記錄族群、社經地位等資訊，或記錄方式不一致，使分群評估難以進行。</li>
+          <li><strong>移除敏感屬性並不足夠</strong>：即使不把族群作為輸入變項，模型仍可能從影像或其他變項推論出相關資訊，因此不能以「未使用族群資料」作為公平的證明。</li>
+          <li><strong>公平性定義互相衝突</strong>：不同的公平性指標可能無法同時滿足，選擇何種定義涉及價值判斷，需要臨床人員、病人與倫理專家共同討論。</li>
+          <li><strong>子群體樣本數少</strong>：少數族群的樣本數有限時，分群評估的結果不穩定，可能低估或高估實際的差距。</li>
+        </ul>
+      </section>
+
+      <section id="key-points">
+        <h2>重點整理</h2>
+        <ul>
+          <li>醫療 AI 可能從歷史資料中學到並放大既有的健康不平等。</li>
+          <li>偏誤可能來自資料代表性、測量工具、標籤定義與部署方式等不同環節。</li>
+          <li>評估公平性時，須依性別、年齡、族群等分群報告效能，不能只看整體準確率。</li>
+          <li>不使用族群變項不代表模型公平，模型仍可能從其他特徵推論相關資訊。</li>
+        </ul>
+      </section>
+
+      <section id="references">
+        <h2>參考資料</h2>
+        <ol>
+          <li>Rajkomar A, et al. Ensuring fairness in machine learning to advance health equity. <cite>Annals of Internal Medicine</cite>. 2018;169(12):866-872. <a href="https://doi.org/10.7326/M18-1990">doi:10.7326/M18-1990</a></li>
+          <li>Obermeyer Z, et al. Dissecting racial bias in an algorithm used to manage the health of populations. <cite>Science</cite>. 2019;366(6464):447-453. <a href="https://doi.org/10.1126/science.aax2342">doi:10.1126/science.aax2342</a></li>
+          <li>Sjoding MW, et al. Racial bias in pulse oximetry measurement. <cite>New England Journal of Medicine</cite>. 2020;383(25):2477-2478. <a href="https://doi.org/10.1056/NEJMc2029240">doi:10.1056/NEJMc2029240</a></li>
+          <li>Seyyed-Kalantari L, et al. Underdiagnosis bias of artificial intelligence algorithms applied to chest radiographs in under-served patient populations. <cite>Nature Medicine</cite>. 2021;27(12):2176-2182. <a href="https://doi.org/10.1038/s41591-021-01595-0">doi:10.1038/s41591-021-01595-0</a></li>
+          <li>Daneshjou R, et al. Disparities in dermatology AI performance on a diverse, curated clinical image set. <cite>Science Advances</cite>. 2022;8(32):eabq6147. <a href="https://doi.org/10.1126/sciadv.abq6147">doi:10.1126/sciadv.abq6147</a></li>
+          <li>Gichoya JW, et al. AI recognition of patient race in medical imaging: a modelling study. <cite>The Lancet Digital Health</cite>. 2022;4(6):e406-e414. <a href="https://doi.org/10.1016/S2589-7500(22)00063-2">doi:10.1016/S2589-7500(22)00063-2</a></li>
+        </ol>
+      </section>
+
+      <section class="related" id="related" aria-label="相關主題"></section>
+      <nav class="pager" id="pager" aria-label="上一篇與下一篇"></nav>
+    </article>
+
+    <aside class="toc" id="toc" aria-label="本頁目次"></aside>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

@@ -53,7 +53,17 @@ window.SITE_DATA.topics = [
     category: "trustworthy-ai",
     level: "進階",
     summary: "說明模型為何做出某一預測的方法，例如標示影像中的關鍵區域或列出主要風險因子，協助醫師檢查模型的判斷依據是否合理。",
-    related: ["medical-imaging-ai", "regulation-and-validation"],
+    related: ["medical-imaging-ai", "regulation-and-validation", "algorithmic-fairness"],
+    updated: "2026-11-05"
+  },
+  {
+    slug: "algorithmic-fairness",
+    title: "演算法公平性與偏誤",
+    titleEn: "Algorithmic Fairness and Bias",
+    category: "trustworthy-ai",
+    level: "進階",
+    summary: "探討醫療 AI 在不同性別、族群與社經背景病人之間表現不一致的現象，並說明偏誤的來源、評估方式與改善策略。",
+    related: ["explainable-ai", "regulation-and-validation", "medical-imaging-ai"],
     updated: "2026-11-05"
   },
   {
@@ -63,7 +73,7 @@ window.SITE_DATA.topics = [
     category: "regulation",
     level: "進階",
     summary: "說明醫療 AI 作為醫療器材軟體的上市審查架構，以及從內部驗證、外部驗證到前瞻性研究與上市後監測的臨床證據層級。",
-    related: ["medical-imaging-ai", "explainable-ai"],
+    related: ["medical-imaging-ai", "explainable-ai", "algorithmic-fairness"],
     updated: "2026-11-05"
   },
   // @new-topic-insert（請勿刪除此行：scripts/new-topic.mjs 會在此行之前插入新主題）

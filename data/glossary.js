@@ -7,6 +7,13 @@ window.SITE_DATA = window.SITE_DATA || {};
 
 window.SITE_DATA.glossary = [
   {
+    id: "algorithmic-bias",
+    term: "演算法偏誤",
+    en: "Algorithmic Bias",
+    definition: "模型對不同性別、族群或社經背景的群體，系統性地產生不同準確度或不同結果的現象，可能源自資料代表性、標籤定義、測量工具或部署方式，並可能擴大既有的健康不平等。",
+    topics: ["algorithmic-fairness"]
+  },
+  {
     id: "auc",
     term: "ROC 曲線下面積",
     en: "Area Under the ROC Curve (AUC)",
@@ -105,6 +112,13 @@ window.SITE_DATA.glossary = [
     topics: ["federated-learning"]
   },
   {
+    id: "proxy-variable",
+    term: "代理變項",
+    en: "Proxy Variable",
+    definition: "以容易取得的變項代替難以直接測量的目標，例如以醫療費用代表健康需求；若代理變項與真正目標之間的關係在各群體間不同，模型就可能產生系統性偏誤。",
+    topics: ["algorithmic-fairness"]
+  },
+  {
     id: "rag",
     term: "檢索增強生成",
     en: "Retrieval-Augmented Generation (RAG)",
@@ -116,7 +130,7 @@ window.SITE_DATA.glossary = [
     term: "敏感度與特異度",
     en: "Sensitivity and Specificity",
     definition: "敏感度是實際患病者被判為陽性的比例，特異度是實際未患病者被判為陰性的比例；篩檢情境較重視敏感度以避免漏診，確診情境則需兼顧特異度。",
-    topics: ["medical-imaging-ai", "regulation-and-validation"]
+    topics: ["medical-imaging-ai", "regulation-and-validation", "algorithmic-fairness"]
   },
   {
     id: "shap",
@@ -130,7 +144,7 @@ window.SITE_DATA.glossary = [
     term: "捷徑學習",
     en: "Shortcut Learning",
     definition: "模型利用與目標無關、但在訓練資料中恰好與標籤相關的特徵做出判斷的現象，例如影像中的文字標記或醫院來源，使模型在新環境中的表現明顯下降。",
-    topics: ["medical-imaging-ai", "explainable-ai"]
+    topics: ["medical-imaging-ai", "explainable-ai", "algorithmic-fairness"]
   },
   {
     id: "samd",
