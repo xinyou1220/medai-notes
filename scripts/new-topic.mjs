@@ -8,7 +8,7 @@
 //
 // 產生後仍需：撰寫頁面內容、填寫 summary 與 related，並執行 node scripts/check.mjs。
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { loadSiteData } from "./lib/load-data.mjs";
@@ -45,6 +45,7 @@ const page = template
   .replaceAll("{{TITLE}}", title)
   .replaceAll("{{TITLE_EN}}", titleEn)
   .replaceAll("{{SUMMARY}}", "{{待填寫：與 data/topics.js 的 summary 相同}}");
+mkdirSync(dirname(pagePath), { recursive: true });  // 全新專案中 topics/ 可能尚未存在
 writeFileSync(pagePath, page, "utf8");
 
 // 2. 在登錄表插入資料（插入在標記行之前，維持閱讀順序）
