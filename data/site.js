@@ -9,7 +9,7 @@ window.SITE_DATA.site = {
   name: "醫療人工智慧概念講義",
   nameEn: "MedAI Notes",
   description: "以臨床情境為核心，整理醫療人工智慧的重要概念、應用案例與限制。",
-  repo: "",
+  repo: "https://github.com/xinyou1220/medai-notes",
   nav: [
     { label: "首頁", href: "index.html", page: "home" },
     { label: "名詞表", href: "glossary.html", page: "glossary" },
